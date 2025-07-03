@@ -9,26 +9,18 @@ FONT_SIZE = 15
 
 
 calc = ctk.CTk()
-# calc.geometry("350x500")
 calc.title("CALCULATOR")
 
-# min and max sizes for stretch
-
-for i in range(4):
-    calc.grid_columnconfigure(i, weight=1)
-for i in range(4):
-    calc.grid_rowconfigure(i, weight=1)
-
-
-
 input_box = ctk.CTkEntry(calc, font=(FONT, FONT_SIZE), width=300, height=45)
-input_box.grid(row=0, column=0, columnspan=4, sticky='NSEW')
+input_box.grid(row=1, column=0, columnspan=4, sticky='NSEW')
 
 history_listbox = Listbox(calc, font=(FONT, FONT_SIZE))
-history_listbox.grid(row=7, column=0, columnspan=4, sticky="nsew")
+history_listbox.grid(row=0, column=0, columnspan=4, sticky="nsew")
+
+start_row = 2
 
 # inserts in the listbox, scrolls to last inserted
-def add_to_history(result:any) -> None:
+def add_to_history(result) -> None:
     history_listbox.insert(0, result)
     history_listbox.yview(0)
 
@@ -36,24 +28,27 @@ def history_onclick(e: Event) -> None:
     currSelectionIndexes = history_listbox.curselection()
     if currSelectionIndexes:
         val = history_listbox.get(currSelectionIndexes[0])
+        val = val.split("=")[1]
         # input_box.delete(0, END)
         input_box.insert(END, val)
         history_listbox.selection_clear(0, END)
 
 
-def answer():
+def answer(event=None):
     ans = str(input_box.get())
     try:
         evaluate = eval(ans)
         input_box.delete(0, END)
         input_box.insert(END, evaluate)
-        add_to_history(evaluate)
+        add_to_history(f"{ans}={evaluate}")
     except TypeError:
         input_box.delete(0, END)
         input_box.insert(END, "Error")
     except:
         input_box.delete(0, END)
         input_box.insert(END, "Error")
+
+input_box.bind("<Return>", answer)
 
 def input_num(num):
     dv = str(input_box.get())
@@ -115,47 +110,13 @@ buttons = [
 ]
 
 for row in range(len(buttons)):
+    calc.grid_rowconfigure(row+start_row, weight=1)
     for col in range(len(buttons[row])):
+        calc.grid_columnconfigure(col, weight=1)
         ctk.CTkButton(calc,
                       text=buttons[row][col][0],
                       font=(FONT, FONT_SIZE),
                       command=buttons[row][col][1]
-                      ).grid(row=row+1, column=col, sticky="NEWS")
+                      ).grid(row=row+start_row, column=col, sticky="NEWS")
 
-# # FIRST ROW
-# ctk.CTkButton(calc, text="%", font=(FONT, FONT_SIZE), command=lambda: input_num("%"), width=button_width, height=button_height).grid(row=1, column=0, sticky="NSEW")
-# ctk.CTkButton(calc, text="CE", font=(FONT, 14), command=clear_display, width=button_width, height=button_height).place(x=100, y=110)
-# ctk.CTkButton(calc, text="C", font=(FONT, 14), command=clear_display, width=button_width, height=button_height).place(x=180, y=110)
-# ctk.CTkButton(calc, text="⌫", font=(FONT, 12), command=backspace, width=button_width, height=button_height).place(x=260, y=110)
-#
-# # SECOND ROW
-# ctk.CTkButton(calc, text="(", font=(FONT, 15), command=lambda: input_num("("), width=button_width, height=button_height).place(x=20, y=170)
-# ctk.CTkButton(calc, text="𝑥²", font=(FONT, 15), command=lambda: input_num("**2"), width=button_width, height=button_height).place(x=100, y=170)
-# ctk.CTkButton(calc, text=")", font=(FONT, 15), command=lambda: input_num(")"), width=button_width, height=button_height).place(x=180, y=170)
-# ctk.CTkButton(calc, text="÷", font=(FONT, 18), command=lambda: input_num("/"), width=button_width, height=button_height).place(x=260, y=170)
-#
-# # THIRD ROW
-# ctk.CTkButton(calc, text="7", font=(FONT, 15), command=lambda: input_num(7), width=button_width, height=button_height).place(x=20, y=230)
-# ctk.CTkButton(calc, text="8", font=(FONT, 15), command=lambda: input_num(8), width=button_width, height=button_height).place(x=100, y=230)
-# ctk.CTkButton(calc, text="9", font=(FONT, 15), command=lambda: input_num(9), width=button_width, height=button_height).place(x=180, y=230)
-# ctk.CTkButton(calc, text="×", font=(FONT, 15), command=lambda: input_num("*"), width=button_width, height=button_height).place(x=260, y=230)
-#
-# # FOURTH ROW
-# ctk.CTkButton(calc, text="4", font=(FONT, 15), command=lambda: input_num(4), width=button_width, height=button_height).place(x=20, y=290)
-# ctk.CTkButton(calc, text="5", font=(FONT, 15), command=lambda: input_num(5), width=button_width, height=button_height).place(x=100, y=290)
-# ctk.CTkButton(calc, text="6", font=(FONT, 15), command=lambda: input_num(6), width=button_width, height=button_height).place(x=180, y=290)
-# ctk.CTkButton(calc, text="-", font=(FONT, 15), command=lambda: input_num("-"), width=button_width, height=button_height).place(x=260, y=290)
-#
-# # FIFTH ROW
-# ctk.CTkButton(calc, text="1", font=(FONT, 15), command=lambda: input_num(1), width=button_width, height=button_height).place(x=20, y=350)
-# ctk.CTkButton(calc, text="2", font=(FONT, 15), command=lambda: input_num(2), width=button_width, height=button_height).place(x=100, y=350)
-# ctk.CTkButton(calc, text="3", font=(FONT, 15), command=lambda: input_num(3), width=button_width, height=button_height).place(x=180, y=350)
-# ctk.CTkButton(calc, text="+", font=(FONT, 15), command=lambda: input_num("+"), width=button_width, height=button_height).place(x=260, y=350)
-#
-# # SIXTH ROW
-# ctk.CTkButton(calc, text="+/-", font=(FONT, 15), command=lambda: input_num("-"), width=button_width, height=button_height).place(x=20, y=410)
-# ctk.CTkButton(calc, text="0", font=(FONT, 15), command=lambda: input_num(0), width=button_width, height=button_height).place(x=100, y=410)
-# ctk.CTkButton(calc, text=".", font=(FONT, 15), command=lambda: input_num("."), width=button_width, height=button_height).place(x=180, y=410)
-# ctk.CTkButton(calc, text="=", font=(FONT, 15), fg_color="#19a8b2", command=answer, width=button_width, height=button_height).place(x=260, y=410)
-#
 calc.mainloop()
