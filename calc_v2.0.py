@@ -7,16 +7,39 @@ ctk.set_default_color_theme("blue")
 FONT = "Consolas"
 FONT_SIZE = 15
 
+
 calc = ctk.CTk()
 # calc.geometry("350x500")
 calc.title("CALCULATOR")
 
-calc.grid_columnconfigure(0, weight=1)
-calc.grid_rowconfigure(0, weight=1)
+# min and max sizes for stretch
+
+for i in range(4):
+    calc.grid_columnconfigure(i, weight=1)
+for i in range(4):
+    calc.grid_rowconfigure(i, weight=1)
+
 
 
 input_box = ctk.CTkEntry(calc, font=(FONT, FONT_SIZE), width=300, height=45)
 input_box.grid(row=0, column=0, columnspan=4, sticky='NSEW')
+
+history_listbox = Listbox(calc, font=(FONT, FONT_SIZE))
+history_listbox.grid(row=7, column=0, columnspan=4, sticky="nsew")
+
+# inserts in the listbox, scrolls to last inserted
+def add_to_history(result:any) -> None:
+    history_listbox.insert(0, result)
+    history_listbox.yview(0)
+
+def history_onclick(e: Event) -> None:
+    currSelectionIndexes = history_listbox.curselection()
+    if currSelectionIndexes:
+        val = history_listbox.get(currSelectionIndexes[0])
+        # input_box.delete(0, END)
+        input_box.insert(END, val)
+        history_listbox.selection_clear(0, END)
+
 
 def answer():
     ans = str(input_box.get())
@@ -24,6 +47,7 @@ def answer():
         evaluate = eval(ans)
         input_box.delete(0, END)
         input_box.insert(END, evaluate)
+        add_to_history(evaluate)
     except TypeError:
         input_box.delete(0, END)
         input_box.insert(END, "Error")
@@ -44,6 +68,8 @@ def backspace():
     bs = input_box.get()
     input_box.delete(0, END)
     input_box.insert(0, bs[0:-1])
+
+history_listbox.bind('<<ListboxSelect>>', history_onclick)
 
 # Define button dimensions
 button_width = 70
