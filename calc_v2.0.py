@@ -33,6 +33,8 @@ def history_onclick(e: Event) -> None:
         input_box.insert(END, val)
         history_listbox.selection_clear(0, END)
 
+def clr_history_listbox():
+    history_listbox.delete(0, END)
 
 def answer(event=None):
     ans = str(input_box.get())
@@ -66,11 +68,19 @@ def backspace():
 
 history_listbox.bind('<<ListboxSelect>>', history_onclick)
 
-# Define button dimensions
-button_width = 70
-button_height = 50
-
 buttons = [
+    [
+        ("sqrt", lambda: input_num("sqrt(")),
+        ("cbrt", lambda: input_num("**(1/3)")),
+        ("|x|", lambda: input_num("abs(")),
+        ("Clr Hist", lambda: clr_history_listbox())
+    ],
+    [
+        ("arcsin", lambda: input_num("asin(")),
+        ("arccos", lambda: input_num("acos(")),
+        ("arctan", lambda: input_num("atan(")),
+        ("!", lambda: input_num("factorial(")),
+    ],
     [
         ("sin", lambda: input_num("sin(")),
         ("cos", lambda: input_num("cos(")),
