@@ -46,14 +46,14 @@ The calculator has a designated input field where the user can enter the express
 
 ## How to Run
 
-1. Save the code as a Python file (e.g., calculator.py).
+1. Run `pip install customtkinter`
 2. Open a terminal window and navigate to the directory where you saved the file.
 3. Run the following command in the terminal:
 
 <br/>
 
 ```python
-python calculator.py
+python calc_v2.0.py
 ```
 
 This will launch the calculator application.
