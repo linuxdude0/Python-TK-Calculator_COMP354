@@ -72,6 +72,18 @@ button_height = 50
 
 buttons = [
     [
+        ("sin", lambda: input_num("sin(")),
+        ("cos", lambda: input_num("cos(")),
+        ("tan", lambda: input_num("tan(")),
+        ("pi", lambda: input_num("pi")),
+    ],
+    [
+        ("log", lambda: input_num("log(")),
+        ("ln", lambda: input_num("ln(")),
+        ("^", lambda: input_num("**")),
+        ("e", lambda: input_num("e")),
+    ],
+    [
         ("%", lambda: input_num("%")),
         ("CE", lambda: clear_display()),
         ("C", lambda: clear_display()),
