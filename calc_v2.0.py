@@ -149,6 +149,8 @@ calc.configure(fg_color='#1a1a1a')
 
 start_row = 0
 
+calc.rowconfigure(start_row, weight=1)
+calc.columnconfigure(0, weight=1)
 history_frame = ctk.CTkFrame(calc, fg_color=COLOR_HISTORY_BG)
 history_frame.grid_columnconfigure(0, weight=1)
 history_frame.grid_columnconfigure(1, weight=0)
