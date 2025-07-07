@@ -57,11 +57,11 @@ The calculator has a designated input field for entering expressions. Clicking t
 
 ### Before:
 
-![image](assets\original_app.png)
+![image](assets/original_app.png)
 
 ### After:
 
-![image](assets\updated_app.png)
+![image](assets/updated_app.png)
 
 <br />
 
