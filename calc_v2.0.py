@@ -28,7 +28,7 @@ def cbrt(x):
 def answer(event=None):
     expression = str(input_box.get())
     eval_expression = expression.replace(
-        '÷', '/').replace('×', '*').replace('^', '**').replace('²', '**2').replace("∛(", "cbrt(")
+        '÷', '/').replace('×', '*').replace('^', '**').replace('²', '**2').replace("∛(", "cbrt(").replace("√(", "sqrt(").replace("ln(", "log(")
 
     import re
     eval_expression = re.sub(
@@ -38,6 +38,9 @@ def answer(event=None):
 
     try:
         evaluate = eval(eval_expression)
+        tolerance = 1e-9  # Define a small tolerance value
+        if abs(evaluate) < tolerance:
+            evaluate = 0
         input_box.delete(0, END)
         input_box.insert(END, evaluate)
         add_to_history(f"{expression} = {evaluate}")
