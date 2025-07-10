@@ -210,10 +210,14 @@ clear_button = ctk.CTkButton(history_frame,
 clear_button.grid(row=0, column=1, sticky="e", padx=10, pady=5)
 start_row += 1
 
-input_box.bind("<Return>", answer)
-
 history_listbox.bind('<<ListboxSelect>>', history_onclick)
 calc.bind("<Key>", key_press)
+
+# avoid duplicate keys when input box in focus
+# prevent default CTkEntry behavior after key_press() or backspace() returns
+input_box.bind("<Key>", lambda e: key_press(e) or "break")
+input_box.bind("<Return>", answer)
+input_box.bind("<BackSpace>", lambda e: backspace() or "break")
 
 all_buttons = [
     [
